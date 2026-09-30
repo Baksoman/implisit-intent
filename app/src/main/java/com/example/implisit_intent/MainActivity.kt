@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val btnKirimPesan = findViewById<Button>(R.id.btnKirimPesnan)
+        val _btnKirimPesan = findViewById<Button>(R.id.btnKirimPesnan)
 
-        btnKirimPesan.setOnClickListener {
+        _btnKirimPesan.setOnClickListener {
 
             val _sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val btnSetAlarm = findViewById<Button>(R.id.btnSetAlarm)
+        val _btnSetAlarm = findViewById<Button>(R.id.btnSetAlarm)
 
-        btnSetAlarm.setOnClickListener {
+        _btnSetAlarm.setOnClickListener {
             val _alarmIntent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
                 putExtra(AlarmClock.EXTRA_MESSAGE, "COBA ALARM")
                 putExtra(AlarmClock.EXTRA_HOUR, 18)
@@ -61,22 +61,22 @@ class MainActivity : AppCompatActivity() {
             startActivity(_alarmIntent)
         }
 
-        val btnSetTimer = findViewById<Button>(R.id.btnSetTimer)
+        val _btnSetTimer = findViewById<Button>(R.id.btnSetTimer)
 
-        btnSetTimer.setOnClickListener {
+        _btnSetTimer.setOnClickListener {
             val _timerIntent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
                 putExtra(AlarmClock.EXTRA_MESSAGE, "COBA ALARM")
                 putExtra(AlarmClock.EXTRA_LENGTH, 20)
-//                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
+                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
             }
 
             startActivity(_timerIntent)
         }
 
-        val btnOpenURL = findViewById<Button>(R.id.btnOpenURL)
+        val _btnOpenURL = findViewById<Button>(R.id.btnOpenURL)
         val _etURL = findViewById<EditText>(R.id.etURL)
 
-        btnOpenURL.setOnClickListener {
+        _btnOpenURL.setOnClickListener {
             var _webIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("http://"+_etURL.text.toString())
@@ -93,9 +93,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val btnSetEvent = findViewById<Button>(R.id.btnSetEvent)
+        val _btnSetEvent = findViewById<Button>(R.id.btnSetEvent)
 
-        btnSetEvent.setOnClickListener {
+        _btnSetEvent.setOnClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -149,6 +149,41 @@ class MainActivity : AppCompatActivity() {
         val _btnGetPhoto = findViewById<Button>(R.id.btnGetPhoto)
         _btnGetPhoto.setOnClickListener {
             cameraLauncher.launch(null)
+        }
+
+        val _btnBukaMaps = findViewById<Button>(R.id.btnBukaMaps)
+        _btnBukaMaps.setOnClickListener {
+            val _latitude = "-7.24611"
+            val _longitude = "112.73750"
+            val _labelTempat = "Tugu Pahlawan"
+
+        val gmmIntentURI = Uri.parse("geo:$_latitude,$_longitude?q=$_latitude,$_longitude($_labelTempat)")
+
+            var _mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentURI).apply {
+                setPackage("com.google.android.apps.maps")
+            }
+
+            if(_mapIntent.resolveActivity(packageManager) != null) {
+                startActivity(_mapIntent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Aplikasi Google Maps tidak ditemukan",
+                    Toast.LENGTH_SHORT).show()
+                val _webUri = Uri.parse("https://maps.google.com/maps/search/?api=1&query=$_latitude,$_longitude")
+                val _webIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    _webUri)
+
+                try {
+                    startActivity(_webIntent)
+                } catch (e2: Exception) {
+                    Toast.makeText(
+                        this,
+                        "Tidak ada aplikasi browser yang tersedia",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }
