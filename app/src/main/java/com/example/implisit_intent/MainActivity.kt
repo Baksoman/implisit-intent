@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity() {
         val btnSetTimer = findViewById<Button>(R.id.btnSetTimer)
 
         btnSetTimer.setOnClickListener {
-            val _timerIntent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+            val _timerIntent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
                 putExtra(AlarmClock.EXTRA_MESSAGE, "COBA ALARM")
                 putExtra(AlarmClock.EXTRA_LENGTH, 20)
-                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
+//                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
             }
 
             startActivity(_timerIntent)
